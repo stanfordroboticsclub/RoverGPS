@@ -1,11 +1,10 @@
 [Unit]
-Description=UDP Publisher for GPS data
+Description=UDP Publisher for Gyro data
 
 [Service]
 ExecStart=/home/pi/RoverGPS/gyro.py
-StandardOutput=null
+StandardOutput=syslog
 Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target
-Alias=gps_udp.service

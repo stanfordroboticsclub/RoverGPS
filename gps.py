@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # GPS code modified from
 # https://learn.adafruit.com/adafruit-ultimate-gps/circuitpython-parsing
