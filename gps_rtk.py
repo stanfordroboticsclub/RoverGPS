@@ -12,10 +12,10 @@ headers = {
     'Connection': 'close',
     'Authorization': 'Basic ' + b64encode(user)
 }
-ser= serial.Serial("/dev/tty.usbmodem1411", timeout = 0, writeTimeout = 0)
+ser= serial.Serial("/dev/ttyACM0", timeout = 0, writeTimeout = 0)
 connection = HTTPConnection(server)
 connection.request('GET', '/SLAC_RTCM3',body=None, headers=headers)
-r = connection.getresponse()
+response = connection.getresponse()
 last_time = time.time()
 
 
@@ -34,19 +34,28 @@ try:
 
         #line = ser.readline()
 
+        #data = response.read(100)
+        #pos = data.find('\r\n')
+        #if pos != -1:
+            #correction = buf + data[:pos]
+            #buf = data[pos+2:]
+            #ser.write(correction)
+        #else: buf += data
+        if response.isclosed():
+            print("dead")
+            exit()
+
+
         if line[0:2] == b'$G':
             if (time.time() - last_time) > 1:
                 print("write rtcm")
-                connection = HTTPConnection(server)
-                connection.request('GET', '/SLAC_RTCM3',body=None, headers=headers)
-                r = connection.getresponse()
-                if r.status != 200: raise Exception("blah")
+                #connection = HTTPConnection(server)
+                #connection.request('GET', '/SLAC_RTCM3',body=None, headers=headers)
+                #response = connection.getresponse()
+                #if response.status != 200: raise Exception("blah")
                 print()
-                ser.write(r.read(500))
+                ser.write(response.read(500))
                 last_time = time.time()
-
-
-
 
             msg = pynmea2.parse(str(line))
             try:
