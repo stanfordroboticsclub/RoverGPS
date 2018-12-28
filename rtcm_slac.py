@@ -33,18 +33,6 @@ msgs = []
 
 last_message = time.time()
 
-
-print("Starting")
-i = 0
-
-while 1:
-    print(i)
-    i +=1
-    buf += response.read(100)
-
-
-exit()
-
 while 1:
     if response.isclosed():
         print "responce closed"
@@ -52,15 +40,15 @@ while 1:
     buf += response.read(100)
     length = get_length(buf)
     next_header = buf[length:].find( chr(0xd3) )
-    print(length,next_header, len(buf), len(msgs))
-    print buf[length: length + next_header].encode("hex")
+    # print(length,next_header, len(buf), len(msgs))
+    # print buf[length: length + next_header].encode("hex")
     if (next_header == -1):
         print "no header found"
         continue
     msgs.append( buf[:length + next_header ] )
     buf = buf[length + next_header:]
 
-    if (last_message - time.time()) > publish_interval:
+    if (time.time() - last_message) > publish_interval:
         print(len("".join(msgs)))
         msgs = []
         last_message = time.time()
