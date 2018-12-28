@@ -2,6 +2,7 @@
 
 # GPS code modified from
 # https://learn.adafruit.com/adafruit-ultimate-gps/circuitpython-parsing
+# This script interfaces with the Adafruit (non RTK) gps
 
 import time
 import serial
