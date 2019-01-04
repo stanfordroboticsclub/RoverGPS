@@ -9,7 +9,7 @@ import serial, pynmea2, time, math
 from UDPComms import Publisher, Subscriber, timeout
 
 
-pub_gps = Publisher(8280)
+# pub_gps = Publisher(8280)
 rtcm_sub = Subscriber(8290, timeout=0)
 
 ser = serial.Serial("/dev/tty.usbmodem1421", timeout = 0, writeTimeout = 0)
@@ -33,7 +33,7 @@ try:
         except:
             pass
         else:
-            ser.write(correction[2])
+            ser.write(correction["rtcm"])
 
         line = ser.readline()
         if line[0:2] == '$G':
@@ -41,7 +41,15 @@ try:
             if(msg.sentence_type == "GGA"):
                 print(msg.latitude, msg.longitude)
                 print(repr(msg))
-                pub_gps.send( [msg.latitude, msg.longitude] )
+                # pub_gps.send( [msg.latitude, msg.longitude] )
+
+                try:
+                    print(project(msg.latitude, msg.longitude, 
+                            correction['lat'], correction['lon']))
+                except:
+                    pass
+
+
 
 except KeyboardInterrupt:
     print('closing')

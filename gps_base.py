@@ -8,7 +8,7 @@ import serial, pynmea2, time
 from UDPComms import Publisher
 
 
-pub = Publisher(8290)
+pub = Publisher(8290, local=1)
 
 ser = serial.Serial("/dev/tty.usbmodem1411", timeout = 0, writeTimeout = 0)
 
@@ -28,18 +28,18 @@ try:
         if line[0:2] == b'$G':
             msg = pynmea2.parse(str(line))
             if(msg.sentence_type == "GGA"):
-                print(msg.latitude, msg.longitude)
-                # print(repr(msg))
-                # print(ser.in_waiting, ser.out_waiting)
+                # print(msg.latitude, msg.longitude)
+                print(repr(msg))
                 rtcm = b''.join(rtcm_stream)
+                print(ser.in_waiting, ser.out_waiting, len(rtcm))
                 rtcm_stream = []
 
-                # to_send = { b"lat": msg.latitude,
-                #             b"lon": msg.longitude,
-                #             b"alt": 0,
-                #             b"sats": 0,
-                #             b"rtcm": rtcm}
-                to_send = [ msg.latitude, msg.longitude, rtcm]
+                to_send = { "lat": msg.latitude,
+                            "lon": msg.longitude,
+                            "alt": 0,
+                            "sats": 0,
+                            "rtcm": rtcm}
+                # to_send = [ msg.latitude, msg.longitude, rtcm]
                 pub.send(to_send)
 
         else:
