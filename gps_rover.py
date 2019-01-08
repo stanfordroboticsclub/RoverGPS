@@ -43,7 +43,7 @@ try:
                 print(repr(msg))
 
                 timestamp = (msg.timestamp - datetime(1970, 1, 1)).total_seconds()
-                to_send = { "time": timestamp
+                to_send = { "time": timestamp,
                             "lat": msg.latitude,
                             "lon": msg.longitude,
                             "alt": msg.altitude,

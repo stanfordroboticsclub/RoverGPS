@@ -8,6 +8,8 @@ from user_pass import user
 
 publish_interval = 1
 
+pub = Publisher(8290)
+
 server ="rtgpsout.unavco.org:2101"
 
 headers = {
@@ -49,9 +51,22 @@ while 1:
     buf = buf[length + next_header:]
 
     if (time.time() - last_message) > publish_interval:
+        rtcm = "".join(msgs)
         print(len("".join(msgs)))
         msgs = []
         last_message = time.time()
+
+        # timestamp = (msg.timestamp - datetime(1970, 1, 1)).total_seconds()
+        to_send = { "time": 0,
+                    "lat": 0,
+                    "lon": 0,
+                    "alt": 0,
+                    "sats": 0,
+                    "rtcm": rtcm}
+
+        pub.send(to_send)
+
+
 
 
 
