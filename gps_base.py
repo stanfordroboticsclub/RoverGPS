@@ -28,18 +28,19 @@ try:
         if line[0:2] == b'$G':
             msg = pynmea2.parse(str(line))
             if(msg.sentence_type == "GGA"):
-                # print(msg.latitude, msg.longitude)
                 print(repr(msg))
                 rtcm = b''.join(rtcm_stream)
                 print(ser.in_waiting, ser.out_waiting, len(rtcm))
                 rtcm_stream = []
 
-                to_send = { "lat": msg.latitude,
+                timestamp = (msg.timestamp - datetime(1970, 1, 1)).total_seconds()
+                to_send = { "time": timestamp
+                            "lat": msg.latitude,
                             "lon": msg.longitude,
-                            "alt": 0,
-                            "sats": 0,
+                            "alt": msg.altitude,
+                            "sats": msg.num_sats,
                             "rtcm": rtcm}
-                # to_send = [ msg.latitude, msg.longitude, rtcm]
+
                 pub.send(to_send)
 
         else:

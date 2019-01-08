@@ -41,14 +41,23 @@ try:
             if(msg.sentence_type == "GGA"):
                 print(msg.latitude, msg.longitude)
                 print(repr(msg))
-                # pub_gps.send( [msg.latitude, msg.longitude] )
+
+                timestamp = (msg.timestamp - datetime(1970, 1, 1)).total_seconds()
+                to_send = { "time": timestamp
+                            "lat": msg.latitude,
+                            "lon": msg.longitude,
+                            "alt": msg.altitude,
+                            "sats": msg.num_sats,
+                            "qual": msg.gps_qual,
+                            "age": msg.age_gps_data}
+                            
+                pub_gps.send(to_send)
 
                 try:
                     print(project(msg.latitude, msg.longitude, 
                             correction['lat'], correction['lon']))
                 except:
                     pass
-
 
 
 except KeyboardInterrupt:
