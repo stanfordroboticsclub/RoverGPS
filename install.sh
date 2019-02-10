@@ -3,7 +3,9 @@
 FOLDER=$(dirname $(realpath "$0"))
 cd $FOLDER
 
-pip3 install adafruit-circuitpython-gps
+yes | pip3 install adafruit-circuitpython-gps
+yes | pip install pynmea2
+yes | pip install pyserial
 
 for file in *.service; do
     [ -f "$file" ] || break
