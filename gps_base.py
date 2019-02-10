@@ -8,9 +8,8 @@ import serial, pynmea2, time
 from UDPComms import Publisher
 
 
-pub = Publisher(8290, local=1)
-
-ser = serial.Serial("/dev/tty.usbmodem1411", timeout = 0, writeTimeout = 0)
+pub = Publisher(8290)
+ser = serial.Serial("/dev/ttyS0", timeout = 0, writeTimeout = 0)
 
 # Message format
 # https://forum.u-blox.com/index.php/16898/decoding-rtcm3-message

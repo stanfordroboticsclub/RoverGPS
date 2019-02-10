@@ -9,10 +9,10 @@ import serial, pynmea2, time, math
 from UDPComms import Publisher, Subscriber, timeout
 
 
-# pub_gps = Publisher(8280)
+pub_gps = Publisher(8280)
 rtcm_sub = Subscriber(8290, timeout=0)
 
-ser = serial.Serial("/dev/tty.usbmodem1421", timeout = 0, writeTimeout = 0)
+ser = serial.Serial("/dev/ttyS0", timeout = 0, writeTimeout = 0)
 
 def project(lat, lon, lat_orig, lon_orig):
     RADIUS = 6371 * 1000
@@ -43,21 +43,25 @@ try:
                 print(repr(msg))
 
                 timestamp = (msg.timestamp - datetime(1970, 1, 1)).total_seconds()
+
+                try:
+                    x,y = project(msg.latitude, msg.longitude, 
+                            correction['lat'], correction['lon'])
+                    local = [ True, x, y]
+                except:
+                    local = [ False, 0 ,0]
+
                 to_send = { "time": timestamp,
                             "lat": msg.latitude,
                             "lon": msg.longitude,
                             "alt": msg.altitude,
                             "sats": msg.num_sats,
                             "qual": msg.gps_qual,
-                            "age": msg.age_gps_data}
+                            "age": msg.age_gps_data,
+                            "local":local}
                             
                 pub_gps.send(to_send)
 
-                try:
-                    print(project(msg.latitude, msg.longitude, 
-                            correction['lat'], correction['lon']))
-                except:
-                    pass
 
 
 except KeyboardInterrupt:
