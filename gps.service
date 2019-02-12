@@ -1,5 +1,5 @@
 [Unit]
-Description=UDP Publisher for GPS data
+Description=Pub: 8280 - GPS location; Sub: 8290 - RTCM corrections
 
 [Service]
 ExecStart=/usr/bin/python /home/pi/RoverGPS/gps_rover.py
