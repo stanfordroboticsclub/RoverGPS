@@ -3,11 +3,8 @@ import time
 from UDPComms import Publisher
 
 # Create a UDP Publisher and set it to the correct data types
-fields = "time sats lat lon alt error_lat error_lon error_alt"
-format_ = "ii3f3f"
-port = 8860
-pub = Publisher(fields, format_, port)
 
+pub = Publisher(8280)
 
 i = 0
 points = [ (37.429, -122.170),
@@ -21,5 +18,15 @@ while True:
     print lat, lon
 
     i = (i+1) % len(points)
-    pub.send(0, 4, lat, lon, 0, 0, 0, 0)
+
+    to_send = { "time": 0,
+            "lat": lat,
+            "lon": lon,
+            "alt": 0,
+            "sats": 12,
+            "qual": 5,
+            "age": 1,
+            "local":[False, 0, 0]}
+
+    pub.send(to_send)
     time.sleep(1)
