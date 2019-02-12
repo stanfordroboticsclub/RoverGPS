@@ -60,9 +60,9 @@ while 1:
 
         # timestamp = (msg.timestamp - datetime(1970, 1, 1)).total_seconds()
         to_send = { "time": 0,
-                    "lat": 0,
-                    "lon": 0,
-                    "alt": 0,
+                    "lat": 37.41652,
+                    "lon": -122.20427,
+                    "alt": 64,
                     "sats": 0,
                     "rtcm": rtcm}
 
