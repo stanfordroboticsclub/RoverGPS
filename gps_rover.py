@@ -2,7 +2,7 @@
 """
 This script interfaces with the sparkfun GPS module in Rover mode
 
-It publishes the rovers location to port 8860
+It publishes the rovers location to port 8280
 If it receives RTCM correction on port 8290 it will also use them
 """
 import time, math, datetime
