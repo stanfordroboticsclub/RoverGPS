@@ -6,6 +6,8 @@ from base64 import b64encode
 import serial, pynmea2, time
 from user_pass import user
 
+from UDPComms import Publisher
+
 publish_interval = 1
 
 pub = Publisher(8290)
