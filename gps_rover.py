@@ -5,14 +5,15 @@ This script interfaces with the sparkfun GPS module in Rover mode
 It publishes the rovers location to port 8860
 If it receives RTCM correction on port 8290 it will also use them
 """
-import serial, pynmea2, time, math
+import time, math, datetime
+import serial, pynmea2
 from UDPComms import Publisher, Subscriber, timeout
 
 
 pub_gps = Publisher(8280)
 rtcm_sub = Subscriber(8290, timeout=0)
 
-ser = serial.Serial("/dev/ttyS0", timeout = 0, writeTimeout = 0)
+ser = serial.Serial("/dev/ttyS0", timeout = None, writeTimeout = 0)
 
 def project(lat, lon, lat_orig, lon_orig):
     RADIUS = 6371 * 1000
@@ -36,13 +37,17 @@ try:
             ser.write(correction["rtcm"])
 
         line = ser.readline()
+        #print line
         if line[0:2] == '$G':
             msg = pynmea2.parse(str(line))
             if(msg.sentence_type == "GGA"):
                 print(msg.latitude, msg.longitude)
                 print(repr(msg))
 
-                timestamp = (msg.timestamp - datetime(1970, 1, 1)).total_seconds()
+                #print(msg.timestamp)
+                #timestamp = (msg.timestamp - datetime(1970, 1, 1)).total_seconds()
+                # TODO
+                timestamp = 0
 
                 try:
                     x,y = project(msg.latitude, msg.longitude, 

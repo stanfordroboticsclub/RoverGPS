@@ -2,7 +2,7 @@
 Description=UDP Publisher for GPS data
 
 [Service]
-ExecStart=/home/pi/RoverGPS/gps_service.py
+ExecStart=/home/pi/RoverGPS/gps_rover.py
 StandardOutput=syslog
 Restart=on-failure
 
