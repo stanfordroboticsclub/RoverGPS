@@ -2,9 +2,10 @@
 Description=UDP Publisher for GPS data
 
 [Service]
-ExecStart=/home/pi/RoverGPS/gps_rover.py
+ExecStart=/usr/bin/python /home/pi/RoverGPS/gps_rover.py
 StandardOutput=syslog
-Restart=on-failure
+Restart=always
+RestartSec=5
 
 [Install]
 WantedBy=multi-user.target
