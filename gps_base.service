@@ -1,0 +1,11 @@
+[Unit]
+Description=Pub: 8290 - RTCM corrections
+
+[Service]
+ExecStart=/usr/bin/python /home/pi/RoverGPS/gps_base.py
+StandardOutput=syslog
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
