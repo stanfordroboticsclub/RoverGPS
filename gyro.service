@@ -1,5 +1,5 @@
 [Unit]
-Description=UDP Publisher for Gyro data
+Description=Pub: 8220 - Orientation
 
 [Service]
 ExecStart=/home/pi/RoverGPS/gyro.py

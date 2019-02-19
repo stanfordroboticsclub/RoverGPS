@@ -1,24 +1,34 @@
 #!/usr/bin/env python3
 
-import time
-import serial
 from UDPComms import Publisher
 
-fields = "angle"
-format_ = "f"
-port = 8870
-pub = Publisher(fields, format_, port)
+import time
+import board
+import busio
+import adafruit_bno055
+ 
+i2c = busio.I2C(board.SCL, board.SDA)
+sensor = adafruit_bno055.BNO055(i2c)
 
-uart = serial.Serial("/dev/ttyUSB1", baudrate=115200, timeout=3000)
-
-last_print = time.monotonic()
+pub = Publisher(8220)
+ 
 while True:
-    current = time.monotonic()
-    angle = float(uart.readline()[7:])
+    # print('Temperature: {} degrees C'.format(sensor.temperature))
+    # print('Accelerometer (m/s^2): {}'.format(sensor.accelerometer))
+    # print('Magnetometer (microteslas): {}'.format(sensor.magnetometer))
+    # print('Gyroscope (deg/sec): {}'.format(sensor.gyroscope))
+    # print('Euler angle: {}'.format(sensor.euler))
+    # print('Quaternion: {}'.format(sensor.quaternion))
+    # print('Linear acceleration (m/s^2): {}'.format(sensor.linear_acceleration))
+    # print('Gravity (m/s^2): {}'.format(sensor.gravity))
+    # print()
 
-    if current - last_print >= 0.1:
-        print(angle)
-        last_print = current
-        pub.send(angle)
+    to_send = {"temp": sensor.temperature,
+               "angle": sensor.euler,
+               "gravity": sensor.gravity,
+               "accel":sensor.linear_acceleration,
+               "calibration": sensor.calibration_status}
 
-
+    pub.send(to_send)
+ 
+    time.sleep(1)
