@@ -6,6 +6,9 @@ from Adafruit_BNO055 import BNO055
  
 bno = BNO055.BNO055(serial_port='/dev/serial0', rst=18)
 pub = Publisher(8220)
+
+if not bno.begin():
+    raise RuntimeError('Failed to initialize BNO055! Is the sensor connected?')
  
 while True:
     to_send = {"temp": bno.read_temp(),
