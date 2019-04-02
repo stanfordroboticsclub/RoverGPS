@@ -2,7 +2,7 @@
 Description=Pub: 8220 - Orientation
 
 [Service]
-ExecStart=/home/pi/RoverGPS/gyro.py
+ExecStart=/home/pi/RoverGPS/imu.py
 StandardOutput=syslog
 Restart=on-failure
 
