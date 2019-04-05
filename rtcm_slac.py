@@ -3,7 +3,7 @@
 from httplib import HTTPConnection
 from base64 import b64encode
 
-import serial, pynmea2, time
+import pynmea2, time
 from user_pass import user
 
 from UDPComms import Publisher
