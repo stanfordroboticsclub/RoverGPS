@@ -13,7 +13,7 @@ from UDPComms import Publisher, Subscriber, timeout
 pub_gps = Publisher(8280)
 rtcm_sub = Subscriber(8290, timeout=0)
 
-ser = serial.Serial("/dev/ttyS0", timeout = None, writeTimeout = 0)
+ser = serial.Serial("/dev/serial0", timeout = None, writeTimeout = 0)
 
 def project(lat, lon, lat_orig, lon_orig):
     RADIUS = 6371 * 1000
