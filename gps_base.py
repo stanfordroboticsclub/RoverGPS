@@ -9,7 +9,7 @@ from UDPComms import Publisher
 
 
 pub = Publisher(8290)
-ser = serial.Serial("/dev/ttyS0", timeout = 0, writeTimeout = 0)
+ser = serial.Serial("/dev/serial0", timeout = 0, writeTimeout = 0)
 
 # Message format
 # https://forum.u-blox.com/index.php/16898/decoding-rtcm3-message
